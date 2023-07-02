@@ -14,7 +14,7 @@ public class IntroAndMenu : MonoBehaviour
     private bool StartButtonPressed, ExitButtonPressed;
 
     // Components
-    
+
 
 
     // Scripts
@@ -39,15 +39,15 @@ public class IntroAndMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(Script_Fade.CG.alpha);
+        //print(Time.time);
         // Switch Scene, Controlled by alpha of the Fade
-        if (Script_Fade.CG.alpha > 0.88)
+        if (Script_Fade.CG.alpha > 0.95)
         {
             if (StartButtonPressed)
             {
                 NextScene();
             }
-            if(ExitButtonPressed)
+            if (ExitButtonPressed)
             {
                 Exit();
             }
@@ -55,7 +55,7 @@ public class IntroAndMenu : MonoBehaviour
     } 
     void FixedUpdate()
     {
-
+        
     }
 
     // Start Button
@@ -73,8 +73,7 @@ public class IntroAndMenu : MonoBehaviour
     // Enter next scene
     private void NextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        //SceneManager.LoadScene("Notification");
+        SceneController.GoToNextScene();
     }
     // Exit the game
     private void Exit()

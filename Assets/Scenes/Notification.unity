@@ -189,13 +189,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5962995235802110683, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_text
-      value: 'Menu
-
-'
+      value: Prev
       objectReference: {fileID: 0}
     - target: {fileID: 6225054674516955839, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_Name
-      value: Menu
+      value: Prev
       objectReference: {fileID: 0}
     - target: {fileID: 6225054674516955839, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_IsActive
@@ -292,6 +290,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
   m_PrefabInstance: {fileID: 170693618}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &170693620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3136480397791240669, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
+  m_PrefabInstance: {fileID: 170693618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &311126566
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +360,7 @@ MonoBehaviour:
   NextButtonComponent: {fileID: 895925718}
   BackButtonComponent: {fileID: 1856946530}
   StartButtonComponent: {fileID: 1104408113}
-  MenuButtonComponent: {fileID: 1079146467}
+  PrevButtonComponent: {fileID: 170693620}
   Script_Fade: {fileID: 1732084978}
   NotificationText: {fileID: 4900000, guid: fbe16de16d99d2e49aeb891690127b79, type: 3}
 --- !u!1 &323329549
@@ -842,17 +851,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1079146467 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3136480397791240669, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
-  m_PrefabInstance: {fileID: 170693618}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1104408111
 PrefabInstance:
   m_ObjectHideFlags: 0
