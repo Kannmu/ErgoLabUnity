@@ -27,12 +27,13 @@ public class Fade : MonoBehaviour
         catch
         {
             Debug.LogError("ERROR: 未绑定FadeMask物体，请在Hierarchy面板中将Fade/FadeMask物体拖拽分配至Fade.cs脚本CG框内。");
+            FlowControl.Exit();
         }
         
     }
     void FixedUpdate()
     {
-        CG.alpha += Approach(CG.alpha, CG_Alpha_Target, 0.06f);
+        CG.alpha += Approach(CG.alpha, CG_Alpha_Target, 0.07f);
     }
     // Calculate approach delta
     private float Approach(float Value, float Target, float Speed)

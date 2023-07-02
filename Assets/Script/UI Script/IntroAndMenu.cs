@@ -20,11 +20,6 @@ public class IntroAndMenu : MonoBehaviour
     // Scripts
     public Fade Script_Fade;
 
-    private void Awake()
-    {
-        //Limit the FPS to 60
-        Application.targetFrameRate = 60;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -39,17 +34,16 @@ public class IntroAndMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(Time.time);
         // Switch Scene, Controlled by alpha of the Fade
-        if (Script_Fade.CG.alpha > 0.95)
+        if (Script_Fade.CG.alpha > 0.9)
         {
             if (StartButtonPressed)
             {
-                NextScene();
+                FlowControl.NextScene();
             }
             if (ExitButtonPressed)
             {
-                Exit();
+                FlowControl.Exit();
             }
         }
     } 
@@ -70,19 +64,5 @@ public class IntroAndMenu : MonoBehaviour
         ExitButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
-    // Enter next scene
-    private void NextScene()
-    {
-        SceneController.GoToNextScene();
-    }
-    // Exit the game
-    private void Exit()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-    
+ 
 }

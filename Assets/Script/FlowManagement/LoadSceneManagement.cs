@@ -44,11 +44,9 @@ public class LoadSceneManagement : MonoBehaviour
     public void SettingLoadingUI(float progress)
     {
         // 百分比的方式显示进度
-        UnityEngine.Debug.Log("Loading:" + progress.ToString());
+        //UnityEngine.Debug.Log("Loading:" + progress.ToString());
         Percentage.SetText("Loading: " + (progress * 100f).ToString() + "%");
-        //this.progressText.text = (progress * 100f).ToString() + "%";
-        //// 通过改变image的宽度来实现进度条
-        //this.progressBar.fillAmount = progress;
+
     }
 }
 
