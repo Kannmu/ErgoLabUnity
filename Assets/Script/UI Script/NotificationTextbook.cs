@@ -17,12 +17,12 @@ public class NotificationTextbook : MonoBehaviour
     // Variables
     private int Page_Index;
     private string[] TextInLine;
-    private bool StartButtonPressed, MenuButtonPressed;
+    private bool StartButtonPressed, PrevButtonPressed;
 
     // Components
     public TextMeshProUGUI Content;
     public TextMeshProUGUI Footnote;
-    public Button NextButtonComponent, BackButtonComponent,StartButtonComponent, MenuButtonComponent;
+    public Button NextButtonComponent, BackButtonComponent,StartButtonComponent, PrevButtonComponent;
 
     // Scripts
     public Fade Script_Fade;
@@ -40,6 +40,7 @@ public class NotificationTextbook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         // Read and process Experiment Notification
@@ -52,7 +53,7 @@ public class NotificationTextbook : MonoBehaviour
         }
         catch
         {
-            Debug.LogError("ERRPR: Experiment Notification文件出错，这可能是由于未按照规范书写内容。请检查Assert/Setting/TextContent/目录下 Experiment Notification.txt 文件是否存在，或是否按规范填写。");
+            Debug.LogError("ERRPR: Experiment Notification文件出错，这可能是由于文件丢失或未按照规范书写内容。请检查Assert/Setting/TextContent/目录下 Experiment Notification.txt 文件是否存在，或是否按规范填写。");
         }
         
         // Initialize Page Index
@@ -60,26 +61,26 @@ public class NotificationTextbook : MonoBehaviour
         // Initial Button Toggle
         ToggleButton();
         StartButtonPressed = false;
-        MenuButtonPressed = false;
+        PrevButtonPressed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        print(Script_Fade.CG.alpha);
+        //print(Time.time);
         // Refresh the content and footnote
         Content.SetText(TextInLine[Page_Index]);
         Footnote.SetText((Page_Index + 1).ToString());
         // Switch Scene, Controlled by alpha of the Fade
-        if (Script_Fade.CG.alpha > 0.88 )
+        if (Script_Fade.CG.alpha > 0.95)
         {
             if (StartButtonPressed)
             {
                 NextScene();
             }
-            if (MenuButtonPressed)
+            if (PrevButtonPressed)
             {
-                LoadMenu();
+                PreviseScene();
             }
         }
     }
@@ -122,7 +123,7 @@ public class NotificationTextbook : MonoBehaviour
         if (Page_Index == 0)
         {
             BackButtonComponent.gameObject.SetActive(false);
-            MenuButtonComponent.gameObject.SetActive(true);
+            PrevButtonComponent.gameObject.SetActive(true);
         }
         else if (Page_Index == TextInLine.Length - 1)
         {
@@ -134,7 +135,7 @@ public class NotificationTextbook : MonoBehaviour
             NextButtonComponent.gameObject.SetActive(true);
             BackButtonComponent.gameObject.SetActive(true);
             StartButtonComponent.gameObject.SetActive(false);
-            MenuButtonComponent.gameObject.SetActive(false);
+            PrevButtonComponent.gameObject.SetActive(false);
         }
 
     }
@@ -146,7 +147,7 @@ public class NotificationTextbook : MonoBehaviour
     }
     public void MenuButton()
     {
-        MenuButtonPressed = true;
+        PrevButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
     // Exit Button
@@ -166,10 +167,10 @@ public class NotificationTextbook : MonoBehaviour
     }
     void NextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneController.GoToNextScene();
     }
-    void LoadMenu()
+    void PreviseScene()
     {
-        SceneManager.LoadScene("IntroAndMenu");
+        SceneController.GoToPrevScene();
     }
 }
