@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class IntroAndMenu : MonoBehaviour
 {
     // Variables
-    private bool StartButtonPressed, ExitButtonPressed;
+    private bool StartButtonPressed, ExitButtonPressed, SettingButtonPressed;
 
     // Components
 
@@ -20,36 +20,36 @@ public class IntroAndMenu : MonoBehaviour
     // Scripts
     public Fade Script_Fade;
 
-    private void Awake()
-    {
-        //Limit the FPS to 60
-        Application.targetFrameRate = 60;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
+        
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         // Set Button Flag
         StartButtonPressed = false;
         ExitButtonPressed = false;
+        SettingButtonPressed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //print(Time.time);
         // Switch Scene, Controlled by alpha of the Fade
-        if (Script_Fade.CG.alpha > 0.95)
+        if (Script_Fade.CG.alpha > 0.9)
         {
             if (StartButtonPressed)
             {
-                NextScene();
+                FlowControl.NextScene();
+            }
+            if (SettingButtonPressed)
+            {
+                SceneController.GoToSceneByName("SettingScene");
             }
             if (ExitButtonPressed)
             {
-                Exit();
+                FlowControl.Exit();
             }
         }
     } 
@@ -70,19 +70,11 @@ public class IntroAndMenu : MonoBehaviour
         ExitButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
-    // Enter next scene
-    private void NextScene()
+
+    public void SettingButton()
     {
-        SceneController.GoToNextScene();
+        SettingButtonPressed = true;
+        Script_Fade.CG_Alpha_Target = 1f;
     }
-    // Exit the game
-    private void Exit()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-    
+
 }

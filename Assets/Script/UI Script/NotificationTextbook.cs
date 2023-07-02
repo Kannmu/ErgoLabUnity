@@ -30,13 +30,6 @@ public class NotificationTextbook : MonoBehaviour
     // Data
     public TextAsset NotificationText;
 
-
-    private void Awake()
-    {
-        //Limit the FPS to 60
-        Application.targetFrameRate = 60;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -54,8 +47,9 @@ public class NotificationTextbook : MonoBehaviour
         catch
         {
             Debug.LogError("ERRPR: Experiment Notification文件出错，这可能是由于文件丢失或未按照规范书写内容。请检查Assert/Setting/TextContent/目录下 Experiment Notification.txt 文件是否存在，或是否按规范填写。");
+            FlowControl.Exit();
         }
-        
+
         // Initialize Page Index
         Page_Index = 0;
         // Initial Button Toggle
@@ -76,11 +70,11 @@ public class NotificationTextbook : MonoBehaviour
         {
             if (StartButtonPressed)
             {
-                NextScene();
+                FlowControl.NextScene();
             }
             if (PrevButtonPressed)
             {
-                PreviseScene();
+                FlowControl.PreviseScene();
             }
         }
     }
@@ -149,28 +143,5 @@ public class NotificationTextbook : MonoBehaviour
     {
         PrevButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
-    }
-    // Exit Button
-    public void ExitButton()
-    {
-        Invoke("Exit", 0.5f);
-        Script_Fade.CG_Alpha_Target = 1f;
-    }
-    // Exit the game
-    void Exit()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-    void NextScene()
-    {
-        SceneController.GoToNextScene();
-    }
-    void PreviseScene()
-    {
-        SceneController.GoToPrevScene();
     }
 }

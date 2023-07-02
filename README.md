@@ -29,9 +29,9 @@ Unity版本：2021.3.19f1c1。相差不多的版本也可以使用。
 
 ### 添加场景 Add Scene
 
-为了实现切换场景间的Loading界面，以及解决一些加载产生的卡顿。重写封装了场景切换脚本，场景间的切换调度使用SceneController.cs脚本内方法来进行。不使用原本的BuildIndex系统。
+为了实现切换场景间的Loading界面，以及解决一些加载产生的卡顿。重写封装了场景切换脚本，场景间的切换调度使用SceneController.cs脚本内方法来进行。
 
-在添加了新的场景后需要在/Asserts/Script/SceneManagement/SceneController.cs文件中手动添加新场景名称到场景列表。并管理场景顺序。如下：
+在添加了新的场景后需要在/Asserts/Script/FlowManagement/SceneController.cs文件中手动添加新场景名称到场景列表。并管理场景顺序。如下：
 
 ```cs
 // 场景列表数组，这里按顺序填写已经存在的scene的场景名。
@@ -44,9 +44,18 @@ Unity版本：2021.3.19f1c1。相差不多的版本也可以使用。
     };
 ```
 
+之后还需把新添加的场景添加到Building Setting中。
+
 ### 切换场景 Switch Scene
 
-需要切换场景时使用以下方法：
+需要切换场景时使用在FlowControl.cs中封装的以下方法：
+
+```cs
+public static void PreviseScene()//上一个场景
+public static void NextScene()//下一个场景
+public static void Exit()//退出程序
+```
+更加灵活的切换场景可以使用在SceneController.cs中的方法：
 
 ```cs
 SceneController.GoToNextScene();//切换下一个场景

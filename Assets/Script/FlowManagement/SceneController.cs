@@ -11,6 +11,7 @@ public static class SceneController
     public static ArrayList sceneNames = new ArrayList() {
         "IntroAndMenu",
         "Notification",
+        "SettingScene",
     };
     // 设定loadingScene名。
     public static string LoadingSceneName = "LoadingScene";
@@ -67,6 +68,7 @@ public static class SceneController
     {
         // Update sceneIndex
         SceneController.sceneIndex = sceneIndex;
+        Debug.Log(sceneIndex);
         if ((SceneController.sceneIndex >= 0) & (SceneController.sceneIndex < SceneController.sceneNames.Count))
         {
             // Load Loading Scene
@@ -76,6 +78,7 @@ public static class SceneController
         else
         {
             Debug.LogError("ERROR: 输入的SceneIndex不在范围内");
+            FlowControl.Exit();
         }
     }
     // 根据目标场景名称 注销目标场景，这个只是为了统一管理，因为unity早就内置了方法
