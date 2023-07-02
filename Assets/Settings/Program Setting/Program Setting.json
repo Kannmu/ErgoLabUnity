@@ -1,7 +1,6 @@
 {
-    "ResolutionX":1920,
-    "ResolutionY":1200,
-    "IsFullScreen":1,
-    "FPS":60
-
+  "ResolutionX": 1920,
+  "ResolutionY": 1080,
+  "IsFullScreen": 0,
+  "FPS": 60
 }

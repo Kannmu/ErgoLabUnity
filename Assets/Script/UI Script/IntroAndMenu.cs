@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class IntroAndMenu : MonoBehaviour
 {
     // Variables
-    private bool StartButtonPressed, ExitButtonPressed;
+    private bool StartButtonPressed, ExitButtonPressed, SettingButtonPressed;
 
     // Components
 
@@ -24,11 +24,13 @@ public class IntroAndMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         // Set Button Flag
         StartButtonPressed = false;
         ExitButtonPressed = false;
+        SettingButtonPressed = false;
     }
 
     // Update is called once per frame
@@ -40,6 +42,10 @@ public class IntroAndMenu : MonoBehaviour
             if (StartButtonPressed)
             {
                 FlowControl.NextScene();
+            }
+            if (SettingButtonPressed)
+            {
+                SceneController.GoToSceneByName("SettingScene");
             }
             if (ExitButtonPressed)
             {
@@ -64,5 +70,11 @@ public class IntroAndMenu : MonoBehaviour
         ExitButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
- 
+
+    public void SettingButton()
+    {
+        SettingButtonPressed = true;
+        Script_Fade.CG_Alpha_Target = 1f;
+    }
+
 }

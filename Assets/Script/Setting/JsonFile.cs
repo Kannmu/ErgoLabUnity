@@ -5,10 +5,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Unity.VisualScripting;
+using System.Text;
 
 public static class JsonFile
 {
-
     public static string ReadJsonStrData(string FilePath)
     {
         //string类型的数据常量
@@ -25,6 +25,18 @@ public static class JsonFile
         }
         //返回数据
         return StringData;
+    }
+    public static void WriteJsonStrDate(string FilePath, string JsonStr)
+    {
+        //获取到路径
+        string fileUrl = Application.dataPath + FilePath;
+        using (StreamWriter sw = new(fileUrl, false, Encoding.Default))
+        {
+            //数据保存
+            sw.Write(JsonStr);
+            sw.Flush();
+            sw.Close();
+        }
     }
     public static Dictionary<string, int> ReadProgramSetting()
     {
@@ -44,5 +56,24 @@ public static class JsonFile
 
     }
 
+    public static void WriteProgramSetting(ProgramSetting PS)
+    {
+        // Debug Test Use
+        // ProgramSetting PS = new();
+        // PS.ResolutionX = 1920;
+        // PS.ResolutionY = 1080;
+        // PS.FPS = 60;
+        // PS.IsFullScreen = 0;
+        string JsonStr = JsonConvert.SerializeObject(PS, Newtonsoft.Json.Formatting.Indented);
+        WriteJsonStrDate("/Settings/Program Setting/Program Setting.json", JsonStr);
+    }
 
+}
+public class ProgramSetting
+{
+    public int ResolutionX;
+    public int ResolutionY;
+    public int IsFullScreen;
+    public int FPS;
+    
 }
