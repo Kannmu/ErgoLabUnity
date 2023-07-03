@@ -71,6 +71,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-/[Aa]ssets/TextMesh Pro/Fonts/SIMYOU SDF.asset
+# /[Aa]ssets/TextMesh Pro/Fonts/SIMYOU SDF.asset
 /[Aa]ssets/TextMesh Pro/Fonts/SIMYOU.TTF
-/[Aa]ssets/TextMesh Pro/Fonts/SIMYOU SDF.asset.meta
+# /[Aa]ssets/TextMesh Pro/Fonts/SIMYOU SDF.asset.meta

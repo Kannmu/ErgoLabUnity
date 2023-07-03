@@ -67,13 +67,12 @@ public static class JsonFile
         string JsonStr = JsonConvert.SerializeObject(PS, Newtonsoft.Json.Formatting.Indented);
         WriteJsonStrDate("/Settings/Program Setting/Program Setting.json", JsonStr);
     }
+    public class ProgramSetting
+    {
+        public int ResolutionX;
+        public int ResolutionY;
+        public int IsFullScreen;
+        public int FPS;
 
-}
-public class ProgramSetting
-{
-    public int ResolutionX;
-    public int ResolutionY;
-    public int IsFullScreen;
-    public int FPS;
-    
+    }
 }

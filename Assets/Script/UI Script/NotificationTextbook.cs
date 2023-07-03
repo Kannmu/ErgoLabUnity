@@ -1,15 +1,9 @@
 // Notification Textbook Script for Unity Experiment Template
 // Author: Kannmu
 // Date: 2023.7.1
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NotificationTextbook : MonoBehaviour
@@ -33,7 +27,7 @@ public class NotificationTextbook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Debug.Log("Notification Start" + "  " + Time.time);
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         // Read and process Experiment Notification
@@ -49,7 +43,7 @@ public class NotificationTextbook : MonoBehaviour
             Debug.LogError("ERRPR: Experiment Notification文件出错，这可能是由于文件丢失或未按照规范书写内容。请检查Assert/Setting/TextContent/目录下 Experiment Notification.txt 文件是否存在，或是否按规范填写。");
             FlowControl.Exit();
         }
-
+        //Debug.Log("Text Loaded" + "  " + Time.time);
         // Initialize Page Index
         Page_Index = 0;
         // Initial Button Toggle

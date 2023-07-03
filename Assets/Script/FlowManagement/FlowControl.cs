@@ -6,10 +6,12 @@ public static class FlowControl
 {
     public static void PreviseScene()
     {
+        //Debug.Log("Going Previse Scene" + Time.time);
         SceneController.GoToPrevScene();
     }
     public static void NextScene()
     {
+        //Debug.Log("Going Next Scene" + Time.time);
         SceneController.GoToNextScene();
     }
     public static void Exit()

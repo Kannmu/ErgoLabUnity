@@ -31,14 +31,14 @@ public class Fade : MonoBehaviour
         }
         
     }
-    void FixedUpdate()
+    void Update()
     {
-        CG.alpha += Approach(CG.alpha, CG_Alpha_Target, 0.07f);
+        CG.alpha += Approach(CG.alpha, CG_Alpha_Target, 3f);
     }
     // Calculate approach delta
     private float Approach(float Value, float Target, float Speed)
     {
-        float Temp = Speed * (float)Math.Pow(Target - Value, 1.0f);
+        float Temp = Time.deltaTime * Speed * (float)Math.Pow(Target - Value, 1.0f);
         return Temp;
     }
 }
