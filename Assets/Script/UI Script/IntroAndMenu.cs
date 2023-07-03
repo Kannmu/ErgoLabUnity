@@ -13,6 +13,7 @@ public class IntroAndMenu : MonoBehaviour
     // Variables
     private bool StartButtonPressed, ExitButtonPressed, SettingButtonPressed;
 
+
     // Components
 
 
@@ -24,7 +25,7 @@ public class IntroAndMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ProgramSettingController.RefreshDisplaySetting();
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         // Set Button Flag
@@ -37,10 +38,12 @@ public class IntroAndMenu : MonoBehaviour
     void Update()
     {
         // Switch Scene, Controlled by alpha of the Fade
-        if (Script_Fade.CG.alpha > 0.9)
+        if (Script_Fade.CG.alpha > 0.95)
         {
+            //Debug.Log("Fade Finished" + "  " + Time.time);
             if (StartButtonPressed)
             {
+                //Debug.Log("FlowControl NextScene" + "  " + Time.time);
                 FlowControl.NextScene();
             }
             if (SettingButtonPressed)
@@ -61,6 +64,7 @@ public class IntroAndMenu : MonoBehaviour
     // Start Button
     public void StartButton()
     {
+        //Debug.Log("Start Button Pressed" + Time.time);
         StartButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }

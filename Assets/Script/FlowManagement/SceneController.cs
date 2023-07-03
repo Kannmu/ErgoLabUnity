@@ -68,11 +68,12 @@ public static class SceneController
     {
         // Update sceneIndex
         SceneController.sceneIndex = sceneIndex;
-        Debug.Log(sceneIndex);
         if ((SceneController.sceneIndex >= 0) & (SceneController.sceneIndex < SceneController.sceneNames.Count))
         {
             // Load Loading Scene
+            //Debug.Log("Load Loading Scene" + "  " + Time.time);
             SceneManager.LoadScene(LoadingSceneName);
+            //Debug.Log("Finish Load Loading Scene" + "  " + Time.time);
             AfterGoToScene?.Invoke();
         }
         else
