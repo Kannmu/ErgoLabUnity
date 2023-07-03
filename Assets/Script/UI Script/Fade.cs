@@ -33,7 +33,7 @@ public class Fade : MonoBehaviour
     }
     void Update()
     {
-        CG.alpha += Approach(CG.alpha, CG_Alpha_Target, 3f);
+        CG.alpha += Approach(CG.alpha, CG_Alpha_Target, 4f);
     }
     // Calculate approach delta
     private float Approach(float Value, float Target, float Speed)
