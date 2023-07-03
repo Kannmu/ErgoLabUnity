@@ -6,16 +6,18 @@ using UnityEngine;
 using UnityEngine.Windows;
 using System.Threading;
 using UnityEngine.UI;
+using static JsonFile;
 
 public class SettingController : MonoBehaviour
 {
     // Variables
     private bool PrevButtonPressed;
-    private Dictionary<string, int> ProgramSetting;
+    private Dictionary<string, int> ProgramSetting, ExperimentSetting;
 
     // Components
     public GameObject SettingButtons, ProgramSettingMenu, ExperimentSettingMenu;
     public TMP_Dropdown TMP_Resolution, TMP_FPS;
+    public TMP_InputField TMP_SubjectNum, TMP_RoundPerSubject;
     
     // Scripts
     public Fade Script_Fade;
@@ -23,16 +25,21 @@ public class SettingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Read ProgramSetting
+   
+        // Read Settings
         ProgramSetting = JsonFile.ReadProgramSetting();
+        ExperimentSetting = JsonFile.ReadExperimentSetting();
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         ProgramSettingMenu.SetActive(false); 
         ExperimentSettingMenu.SetActive(false);
         // Set Init Value
         PrevButtonPressed = false;
+        // Set Setting Scene Param Value
         TMP_Resolution.value = FindOptionIndex(TMP_Resolution, ProgramSetting["ResolutionX"].ToString() + "x" + ProgramSetting["ResolutionY"].ToString());
         TMP_FPS.value = FindOptionIndex(TMP_FPS, ProgramSetting["FPS"].ToString());
+        TMP_SubjectNum.text = ExperimentSetting["SubjectNum"].ToString();
+        TMP_RoundPerSubject.text = ExperimentSetting["RoundPerSubject"].ToString();
     }
 
     // Update is called once per frame
@@ -56,6 +63,7 @@ public class SettingController : MonoBehaviour
     }
     public void ExperimentSettingButton()
     {
+        Thread.Sleep(150);
         SettingButtons.SetActive(false);
         ProgramSettingMenu.SetActive(false);
         ExperimentSettingMenu.SetActive(true);
@@ -71,9 +79,8 @@ public class SettingController : MonoBehaviour
         ExperimentSettingMenu.SetActive(false);
         SettingButtons.SetActive(true);
     }
-    public void WriteProgramSetting()
+    public void ApplyProgramSetting()
     {
-        Debug.Log(TMP_Resolution.options[TMP_Resolution.value].text);
         JsonFile.ProgramSetting PS = new()
         {
             ResolutionX = Int32.Parse(TMP_Resolution.options[TMP_Resolution.value].text[..4]),
@@ -84,6 +91,17 @@ public class SettingController : MonoBehaviour
         JsonFile.WriteProgramSetting(PS);
         ProgramSettingController.RefreshDisplaySetting();
         Debug.Log("Program Setting Updated");
+    }
+    public void ApplyExperimentSetting()
+    {
+        JsonFile.ExperimentSetting ES = new()
+        {
+            SubjectNum = Int32.Parse(TMP_SubjectNum.text),
+            RoundPerSubject = Int32.Parse(TMP_RoundPerSubject.text),
+        };
+        JsonFile.WriteExperimentSetting(ES);
+        
+        Debug.Log("Experiment Setting Updated");
     }
     private int FindOptionIndex(TMP_Dropdown dropdown, string optionName)
     {
