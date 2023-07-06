@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class IntroAndMenu : MonoBehaviour
 {
     // Variables
-    private bool StartButtonPressed, ExitButtonPressed, SettingButtonPressed;
+    private bool NewButtonPressed, ExitButtonPressed, ContinueButtonPressed;
 
 
     // Components
@@ -25,13 +25,13 @@ public class IntroAndMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ProgramSettingController.RefreshDisplaySetting();
+        ApplySetting.RefreshDisplaySetting();
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
         // Set Button Flag
-        StartButtonPressed = false;
+        NewButtonPressed = false;
         ExitButtonPressed = false;
-        SettingButtonPressed = false;
+        ContinueButtonPressed = false;
     }
 
     // Update is called once per frame
@@ -40,18 +40,28 @@ public class IntroAndMenu : MonoBehaviour
         // Switch Scene, Controlled by alpha of the Fade
         if (Script_Fade.CG.alpha > 0.95)
         {
+            
             //Debug.Log("Fade Finished" + "  " + Time.time);
-            if (StartButtonPressed)
+            if (NewButtonPressed)
             {
+                NewButtonPressed = false;
+                ExitButtonPressed = false;
+                ContinueButtonPressed = false;
                 //Debug.Log("FlowControl NextScene" + "  " + Time.time);
                 FlowControl.NextScene();
             }
-            if (SettingButtonPressed)
+            if (ContinueButtonPressed)
             {
-                SceneController.GoToSceneByName("SettingScene");
+                NewButtonPressed = false;
+                ExitButtonPressed = false;
+                ContinueButtonPressed = false;
+                SceneController.GoToSceneByName("ExperimentScene");
             }
             if (ExitButtonPressed)
             {
+                NewButtonPressed = false;
+                ExitButtonPressed = false;
+                ContinueButtonPressed = false;
                 FlowControl.Exit();
             }
         }
@@ -62,10 +72,10 @@ public class IntroAndMenu : MonoBehaviour
     }
 
     // Start Button
-    public void StartButton()
+    public void NewButton()
     {
         //Debug.Log("Start Button Pressed" + Time.time);
-        StartButtonPressed = true;
+        NewButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
     // Exit Button
@@ -75,9 +85,9 @@ public class IntroAndMenu : MonoBehaviour
         Script_Fade.CG_Alpha_Target = 1f;
     }
 
-    public void SettingButton()
+    public void ContinueButton()
     {
-        SettingButtonPressed = true;
+        ContinueButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
 

@@ -172,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -366,8 +366,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1573731944}
-  - {fileID: 124856278}
   - {fileID: 2009807574}
+  - {fileID: 124856278}
   m_Father: {fileID: 2094178800}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -497,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 512132098467028897, guid: c8d0c1516835aa04e97dc532e6b9e9bb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1200
+      value: 1400
       objectReference: {fileID: 0}
     - target: {fileID: 512132098467028897, guid: c8d0c1516835aa04e97dc532e6b9e9bb, type: 3}
       propertyPath: m_SizeDelta.y
@@ -509,11 +509,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8850704718861370144, guid: c8d0c1516835aa04e97dc532e6b9e9bb, type: 3}
       propertyPath: m_text
-      value: Here is the title of this experiment
+      value: Unity Experiment Program
       objectReference: {fileID: 0}
     - target: {fileID: 8850704718861370144, guid: c8d0c1516835aa04e97dc532e6b9e9bb, type: 3}
       propertyPath: m_fontSize
-      value: 71.05
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 8850704718861370144, guid: c8d0c1516835aa04e97dc532e6b9e9bb, type: 3}
       propertyPath: m_fontStyle
@@ -547,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 2094178801}
     - target: {fileID: 3136480397791240669, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartButton
+      value: NewButton
       objectReference: {fileID: 0}
     - target: {fileID: 3136480397791240669, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -567,11 +567,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5962995235802110683, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_text
-      value: Start
+      value: New
       objectReference: {fileID: 0}
     - target: {fileID: 6225054674516955839, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_Name
-      value: Start
+      value: New
       objectReference: {fileID: 0}
     - target: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_Pivot.x
@@ -911,12 +911,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 330
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -979,7 +979,7 @@ PrefabInstance:
       objectReference: {fileID: 2094178801}
     - target: {fileID: 3136480397791240669, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SettingButton
+      value: ContinueButton
       objectReference: {fileID: 0}
     - target: {fileID: 3136480397791240669, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -999,11 +999,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5962995235802110683, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_text
-      value: Setting
+      value: Continue
       objectReference: {fileID: 0}
     - target: {fileID: 6225054674516955839, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_Name
-      value: Setting
+      value: Continue
       objectReference: {fileID: 0}
     - target: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_Pivot.x
@@ -1015,7 +1015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7157995642488776994, guid: 2c9f0920eff10be44b6488ad1098009a, type: 3}
       propertyPath: m_AnchorMax.x

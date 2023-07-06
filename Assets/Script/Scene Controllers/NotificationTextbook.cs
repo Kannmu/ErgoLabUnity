@@ -27,6 +27,8 @@ public class NotificationTextbook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartButtonPressed = false;
+        PrevButtonPressed = false;
         //Debug.Log("Notification Start" + "  " + Time.time);
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
@@ -40,7 +42,7 @@ public class NotificationTextbook : MonoBehaviour
         }
         catch
         {
-            Debug.LogError("ERRPR: Experiment Notification文件出错，这可能是由于文件丢失或未按照规范书写内容。请检查Assert/Setting/TextContent/目录下 Experiment Notification.txt 文件是否存在，或是否按规范填写。");
+            Debug.LogError("ERROR: Experiment Notification file error, this may be due to a missing file or content not written according to specifications. Please check if the Experiment Notification.txt file exists in the Assert/Data/ directory, or if it is filled out according to the specifications.");
             FlowControl.Exit();
         }
         //Debug.Log("Text Loaded" + "  " + Time.time);
@@ -48,8 +50,7 @@ public class NotificationTextbook : MonoBehaviour
         Page_Index = 0;
         // Initial Button Toggle
         ToggleButton();
-        StartButtonPressed = false;
-        PrevButtonPressed = false;
+        
     }
 
     // Update is called once per frame
@@ -60,15 +61,22 @@ public class NotificationTextbook : MonoBehaviour
         Content.SetText(TextInLine[Page_Index]);
         Footnote.SetText((Page_Index + 1).ToString());
         // Switch Scene, Controlled by alpha of the Fade
-        if (Script_Fade.CG.alpha > 0.95)
+        if (StartButtonPressed)
         {
-            if (StartButtonPressed)
+            if ((Script_Fade.CG.alpha > 0.95)) 
             {
-                FlowControl.NextScene();
+                StartButtonPressed = false;
+                PrevButtonPressed = false;
+                SceneController.GoToSceneByName("ExperimentScene");
             }
-            if (PrevButtonPressed)
+        }
+        if (PrevButtonPressed)
+        {
+            if ((Script_Fade.CG.alpha > 0.95))
             {
-                FlowControl.PreviseScene();
+                StartButtonPressed = false;
+                PrevButtonPressed = false; 
+                SceneController.GoToSceneByName("SettingScene");
             }
         }
     }
@@ -89,7 +97,6 @@ public class NotificationTextbook : MonoBehaviour
             Page_Index = 0;
         }
         ToggleButton();
-
 
     }
     public void BackButton()

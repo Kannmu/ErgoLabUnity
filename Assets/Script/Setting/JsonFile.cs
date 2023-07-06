@@ -9,8 +9,8 @@ using System.Text;
 
 public static class JsonFile
 {
-    public static string ProjectSettingJsonPath = "/Settings/Program Setting/Program Setting.json";
-    public static string ExperimentSettingJsonPath = "/Settings/Experiment Setting/Experiment Setting.json";
+    public static string SettingJsonPath = "/Data/Setting.json";
+    public static string ProgressJsonPath = "/Data/Progress.json";
     public static string ReadJsonStrData(string FilePath)
     {
         //string类型的数据常量
@@ -40,14 +40,7 @@ public static class JsonFile
             sw.Close();
         }
     }
-    public static Dictionary<string, int> ReadProgramSetting()
-    {
-        return ReadAndConvertJsonToStr(ProjectSettingJsonPath);
-    }
-    public static Dictionary<string, int> ReadExperimentSetting()
-    {
-        return ReadAndConvertJsonToStr(ExperimentSettingJsonPath);
-    }
+    
     public static Dictionary<string, int> ReadAndConvertJsonToStr(string filepath)
     {
         try
@@ -55,45 +48,88 @@ public static class JsonFile
             string JsonStr = ReadJsonStrData(filepath);
             Dictionary<string, int> Dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonStr);
             return Dict;
-
         }
         catch
         {
-            Debug.LogError("ERROR：读取Json错误，文件丢失或内容错误。请检查"+ "/Asserts/"+ filepath +"文件是否丢失或内容错误。");
+            Debug.LogError("ERROR: Failed to read JSON, file missing or content incorrect. Please check if the " + "/Asserts/" + filepath + " file is missing or has incorrect content.");
             FlowControl.Exit();
             return new Dictionary<string, int> { };
         }
     }
-    public static void WriteProgramSetting(ProgramSetting PS)
+    public static Dictionary<string, int> ReadSetting()
+    {
+        return ReadAndConvertJsonToStr(SettingJsonPath);
+    }
+    public static Dictionary<string, int> ReadProgress()
+    {
+        return ReadAndConvertJsonToStr(ProgressJsonPath);
+    }
+    public static void WriteSetting(Setting ST)
     {
         // Debug Test Use
-        // ProgramSetting PS = new();
-        // PS.ResolutionX = 1920;
-        // PS.ResolutionY = 1080;
-        // PS.FPS = 60;
-        // PS.IsFullScreen = 0;
-        string JsonStr = JsonConvert.SerializeObject(PS, Newtonsoft.Json.Formatting.Indented);
-        WriteJsonStrDate(ProjectSettingJsonPath, JsonStr);
+        Setting PS = new()
+        {
+            ResolutionX = 1920,
+            ResolutionY = 1080,
+            FPS = 60,
+            IsFullScreen = 0,
+            ExperimentType = 0,
+            SubjectNum = 20,
+            RoundsPerSubject = 3
+        };
+        string JsonStr = JsonConvert.SerializeObject(ST, Newtonsoft.Json.Formatting.Indented);
+        WriteJsonStrDate(SettingJsonPath, JsonStr);
     }
-    public static void WriteExperimentSetting(ExperimentSetting ES)
+    public static Dictionary<string, int> WriteProgress(int TotalPresentedRounds, int SubjectIndex, int RoundIndex)
     {
-        // Debug Test Use 
-        //ES = new();
-        //ES.SubjectNum = 20;
-        //ES.RoundPerSubject = 3;
-        string JsonStr = JsonConvert.SerializeObject(ES, Newtonsoft.Json.Formatting.Indented);
-        WriteJsonStrDate(ExperimentSettingJsonPath, JsonStr);
+        // Debug Test Use
+        Progress PG = new();
+        PG.TotalPresentedRounds = TotalPresentedRounds;
+        PG.CurrentSubjectIndex = SubjectIndex;
+        PG.CurrentRoundIndex = RoundIndex;
+        string JsonStr = JsonConvert.SerializeObject(PG, Newtonsoft.Json.Formatting.Indented);
+        WriteJsonStrDate(ProgressJsonPath, JsonStr);
+        Dictionary<string, int> Dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonStr);
+        return Dict;
     }
-    public class ProgramSetting
+    
+    public static void SetDefaultSetting()
+    {
+        Setting ST = new()
+        {
+            ResolutionX = 1920,
+            ResolutionY = 1080,
+            FPS = 60,
+            IsFullScreen = 0,
+            ExperimentType = 0,
+            SubjectNum = 20,
+            RoundsPerSubject = 3,
+            IndependentVarNum = 2,
+            DependentVarNum = 4
+        };
+        WriteSetting(ST);
+
+    }
+    public static void SetDefaultProgress()
+    {
+        _ = WriteProgress(0, 0, 0);
+    }
+    public class Setting
     {
         public int ResolutionX;
         public int ResolutionY;
         public int IsFullScreen;
         public int FPS;
-    }
-    public class ExperimentSetting
-    {
+        public int ExperimentType;
         public int SubjectNum;
-        public int RoundPerSubject;
+        public int RoundsPerSubject;
+        public int IndependentVarNum;
+        public int DependentVarNum;
+    }
+    public class Progress
+    {
+        public int TotalPresentedRounds;
+        public int CurrentSubjectIndex;
+        public int CurrentRoundIndex;
     }
 }

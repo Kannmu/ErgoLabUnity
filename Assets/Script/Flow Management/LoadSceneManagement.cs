@@ -19,7 +19,7 @@ public class LoadSceneManagement : MonoBehaviour
         // 协程启动异步加载
         //UnityEngine.Debug.Log("StartCoroutine" + "  " + Time.time);
         StartCoroutine(this.AsyncLoading());
-        Application.backgroundLoadingPriority = ThreadPriority.Low;
+        //Application.backgroundLoadingPriority = ThreadPriority.Low;
     }
 
     IEnumerator AsyncLoading()

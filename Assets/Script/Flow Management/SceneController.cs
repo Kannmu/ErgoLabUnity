@@ -10,8 +10,9 @@ public static class SceneController
     // 场景列表数组，这里按顺序填写已经存在的scene 的场景名。
     public static ArrayList sceneNames = new ArrayList() {
         "IntroAndMenu",
-        "Notification",
         "SettingScene",
+        "ExperimentScene",
+        "Notification"
     };
     // 设定loadingScene名。
     public static string LoadingSceneName = "LoadingScene";
@@ -32,7 +33,7 @@ public static class SceneController
         }
         else
         {
-            Debug.LogError("ERROR: 切换下一个Scene错误，不存在下一个Scene。请检查SceneController.cs中的Scene列表是否填写正确。");
+            Debug.LogError("ERROR: Failed to switch to the next Scene, the next Scene does not exist. Please check if the Scene list in SceneController.cs is filled out correctly.");
         }
     }
     // 根据场景顺序，切换到上一个场景
@@ -47,7 +48,7 @@ public static class SceneController
         }
         else
         {
-            Debug.LogError("ERROR: 切换上一个Scene错误，不存在上一个Scene。请检查SceneController.cs中的Scene列表是否填写正确。");
+            Debug.LogError("ERROR: Failed to switch to the previous Scene, the previous Scene does not exist. Please check if the Scene list in SceneController.cs is filled out correctly.");
         }
     }
 
@@ -68,6 +69,7 @@ public static class SceneController
     {
         // Update sceneIndex
         SceneController.sceneIndex = sceneIndex;
+
         if ((SceneController.sceneIndex >= 0) & (SceneController.sceneIndex < SceneController.sceneNames.Count))
         {
             // Load Loading Scene
@@ -78,7 +80,7 @@ public static class SceneController
         }
         else
         {
-            Debug.LogError("ERROR: 输入的SceneIndex不在范围内");
+            Debug.LogError("ERROR: The input SceneIndex is out of range. Please check if the SceneIndex value is within the valid range in SceneController.cs.");
             FlowControl.Exit();
         }
     }
