@@ -26,7 +26,7 @@ public class Fade : MonoBehaviour
         }
         catch
         {
-            Debug.LogError("ERROR: 未绑定FadeMask物体，请在Hierarchy面板中将Fade/FadeMask物体拖拽分配至Fade.cs脚本CG框内。");
+            Debug.LogError("ERROR: Unbound FadeMask object, please drag and assign the Fade/FadeMask object to the CG box in the Hierarchy panel.");
             FlowControl.Exit();
         }
         
