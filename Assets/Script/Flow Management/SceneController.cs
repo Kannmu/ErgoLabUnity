@@ -8,20 +8,21 @@ using Unity.VisualScripting.FullSerializer;
 public static class SceneController
 {
     // 场景列表数组，这里按顺序填写已经存在的scene 的场景名。
+    // Scene List Array, Add SceneName Here In Order
     public static ArrayList sceneNames = new ArrayList() {
-        "IntroAndMenu",
-        "SettingScene",
-        "ExperimentScene",
+        "Intro",
+        "Setting",
+        "Experiment",
         "Notification"
     };
-    // 设定loadingScene名。
+
+    // Set Loading Scene Name
     public static string LoadingSceneName = "LoadingScene";
-    // 定义一个回调事件  当完成任何场景切换时触发
+    // Define a call back Action
     public static Action AfterGoToScene;
 
-    // 即将切换场景的序号
     public static int sceneIndex = 0;
-    // 根据场景顺序，切换到下一个场景的方法
+
     public static void GoToNextScene()
     {
         // Update sceneIndex
@@ -36,7 +37,7 @@ public static class SceneController
             Debug.LogError("ERROR: Failed to switch to the next Scene, the next Scene does not exist. Please check if the Scene list in SceneController.cs is filled out correctly.");
         }
     }
-    // 根据场景顺序，切换到上一个场景
+
     public static void GoToPrevScene()
     {
         // Update sceneIndex
@@ -52,7 +53,6 @@ public static class SceneController
         }
     }
 
-    // 根据场景名称（scene name） 切换到目标场景 （scene index会跟着变动）
     /// <summary>
     /// goto the scene if finded name in scenelist,atherwase reopen current scene 
     /// </summary>
@@ -63,8 +63,13 @@ public static class SceneController
         {
             GoToSceneByIndex(SceneController.sceneNames.IndexOf(sceneName));
         }
+        else 
+        {
+            Debug.LogError("ERROR: The input SceneName was not found. Please check if the SceneName value is correct");
+            FlowControl.Exit();
+        }
     }
-    //根据 场景序号Index切换到目标场景
+    // Switch Scene Based on Scene Index
     public static void GoToSceneByIndex(int sceneIndex)
     {
         // Update sceneIndex
@@ -84,12 +89,10 @@ public static class SceneController
             FlowControl.Exit();
         }
     }
-    // 根据目标场景名称 注销目标场景，这个只是为了统一管理，因为unity早就内置了方法
     public static void UnLoadSceneByName(string sceneName)
     {
         SceneManager.UnloadSceneAsync(sceneName);
     }
-    // 根据目标场景序号 注销目标场景
     public static void UnLoadSceneById(int sceneID)
     {
         SceneManager.UnloadSceneAsync((string)SceneController.sceneNames[sceneID]);

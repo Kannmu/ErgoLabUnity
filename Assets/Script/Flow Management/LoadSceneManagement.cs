@@ -16,7 +16,7 @@ public class LoadSceneManagement : MonoBehaviour
 
     void Start()
     {
-        // 协程启动异步加载
+        // Start Coroutine
         //UnityEngine.Debug.Log("StartCoroutine" + "  " + Time.time);
         StartCoroutine(this.AsyncLoading());
         //Application.backgroundLoadingPriority = ThreadPriority.Low;
@@ -25,7 +25,7 @@ public class LoadSceneManagement : MonoBehaviour
     IEnumerator AsyncLoading()
     {
         this.asyncOperation = SceneManager.LoadSceneAsync((string)SceneController.sceneNames[SceneController.sceneIndex]);
-        //终止自动切换场景
+        //Stop Auto Active New Scene
         this.asyncOperation.allowSceneActivation = false;
         this.asyncOperation.priority = 0;
         yield return asyncOperation;
@@ -43,7 +43,7 @@ public class LoadSceneManagement : MonoBehaviour
     }
     public void SettingLoadingUI(float progress)
     {
-        // 百分比的方式显示进度
+        // Change UI
         //UnityEngine.Debug.Log("Loading:" + (100f * progress).ToString() + "%" + "  " + Time.time);
         Percentage.SetText("Loading: " + (progress * 100f).ToString() + "%");
 
