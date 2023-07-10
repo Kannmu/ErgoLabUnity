@@ -6,7 +6,7 @@ public static class ApplySetting
 {
     public static void RefreshDisplaySetting()
     {
-        Dictionary<string, int> Setting = JsonFile.ReadSetting();
+        Dictionary<string, int> Setting = JsonFile.ReadSetting(ExcelFile.ExperimentName);
         Application.targetFrameRate = Setting["FPS"];
         if (Setting["IsFullScreen"] == 1)
         {

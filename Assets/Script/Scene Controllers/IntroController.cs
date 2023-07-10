@@ -48,7 +48,7 @@ public class IntroController : MonoBehaviour
                 ExitButtonPressed = false;
                 ContinueButtonPressed = false;
                 // Set Defalut Setting Value
-                JsonFile.SetDefaultSetting();
+                //JsonFile.SetDefaultSetting("Default");
                 FlowControl.NextScene();
             }
             if (ContinueButtonPressed)

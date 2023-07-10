@@ -9,9 +9,6 @@ using System.Text;
 
 public static class JsonFile
 {
-    // Set Json File Path
-    public static string SettingJsonPath = "/Data/Setting.json";
-    public static string ProgressJsonPath = "/Data/Progress.json";
     public static string ReadJsonStrData(string FilePath)
     {
         //string 
@@ -54,15 +51,15 @@ public static class JsonFile
             return new Dictionary<string, int> { };
         }
     }
-    public static Dictionary<string, int> ReadSetting()
+    public static Dictionary<string, int> ReadSetting(string ExperimentName)
     {
-        return ReadAndConvertJsonToStr(SettingJsonPath);
+        return ReadAndConvertJsonToStr("/Data/Experiments Data/" + ExperimentName + "/" + "Setting.json");
     }
-    public static Dictionary<string, int> ReadProgress()
+    public static Dictionary<string, int> ReadProgress(string ExperimentName)
     {
-        return ReadAndConvertJsonToStr(ProgressJsonPath);
+        return ReadAndConvertJsonToStr("/Data/Experiments Data/" + ExperimentName + "/" + "Progress.json");
     }
-    public static void WriteSetting(Setting ST)
+    public static void WriteSetting(string ExperimentName,Setting ST)
     {
         // Debug Test Use
         //Setting PS = new()
@@ -76,40 +73,43 @@ public static class JsonFile
         //    RoundsPerSubject = 3
         //};
         string JsonStr = JsonConvert.SerializeObject(ST, Newtonsoft.Json.Formatting.Indented);
-        WriteJsonStrDate(SettingJsonPath, JsonStr);
+        WriteJsonStrDate("/Data/Experiments Data/" + ExperimentName + "/" + "Setting.json", JsonStr);
+     
     }
-    public static Dictionary<string, int> WriteProgress(int TotalPresentedRounds, int SubjectIndex, int RoundIndex)
+    public static Dictionary<string, int> WriteProgress(string ExperimentName,int TotalPresentedRounds, int SubjectIndex, int RoundIndex, int GroupIndex)
     {
         Progress PG = new();
         PG.TotalPresentedRounds = TotalPresentedRounds;
         PG.CurrentSubjectIndex = SubjectIndex;
         PG.CurrentRoundIndex = RoundIndex;
+        PG.CurrentGroupIndex = GroupIndex;
         string JsonStr = JsonConvert.SerializeObject(PG, Newtonsoft.Json.Formatting.Indented);
-        WriteJsonStrDate(ProgressJsonPath, JsonStr);
+        WriteJsonStrDate("/Data/Experiments Data/" + ExperimentName + "/" + "Progress.json", JsonStr);
         Dictionary<string, int> Dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonStr);
         return Dict;
     }
     
-    public static void SetDefaultSetting()
-    {
-        Setting ST = new()
-        {
-            ResolutionX = 1920,
-            ResolutionY = 1080,
-            FPS = 60,
-            IsFullScreen = 0,
-            ExperimentType = 0,
-            SubjectNum = 20,
-            RoundsPerSubject = 3,
-            IndependentVarNum = 2,
-            DependentVarNum = 4
-        };
-        WriteSetting(ST);
+    //public static void SetDefaultSetting(string ExperimentName)
+    //{
+    //    Setting ST = new()
+    //    {
+    //        ResolutionX = 1920,
+    //        ResolutionY = 1080,
+    //        FPS = 60,
+    //        IsFullScreen = 0,
+    //        ExperimentType = 0,
+    //        SubjectNum = 20,
+    //        RoundsPerSubject = 3,
+    //        IndependentVarNum = 2,
+    //        DependentVarNum = 4,
+    //        GropNum = 3
+    //    };
+    //    WriteSetting(ExperimentName,ST);
+    //}
 
-    }
-    public static void SetDefaultProgress()
+    public static void SetDefaultProgress(string ExperimentName)
     {
-        _ = WriteProgress(0, 0, 0);
+        _ = WriteProgress(ExperimentName,0, 0, 0, 0);
     }
     public class Setting
     {
@@ -123,6 +123,7 @@ public static class JsonFile
         public int RoundsPerSubject;
         public int IndependentVarNum;
         public int DependentVarNum;
+        public int GroupNum;
     }
     public class Progress
     {
@@ -130,5 +131,6 @@ public static class JsonFile
         public int TotalPresentedRounds;
         public int CurrentSubjectIndex;
         public int CurrentRoundIndex;
+        public int CurrentGroupIndex;
     }
 }

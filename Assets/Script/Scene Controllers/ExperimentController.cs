@@ -14,8 +14,9 @@ public class ExperimentController : MonoBehaviour
     private bool FinishButtonPressed;
 
     // Components
-    public TextMeshProUGUI TMP_SubjectIndex, TMP_RoundIndex, TMP_FinishButton;
+    public TextMeshProUGUI TMP_SubjectIndex_Within, TMP_SubjectIndex_Bewteen, TMP_RoundIndex, TMP_FinishButton,TMP_GroupIndex;
     public Slider S_ProgressBar;
+    public GameObject WithinSubject, BetweenSubject;
 
     // Script
     public Fade Script_Fade;
@@ -23,15 +24,31 @@ public class ExperimentController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         // Activate Fade
         Script_Fade.CG.gameObject.SetActive(true);
+
         // Read Setting and Progress
-        Setting = JsonFile.ReadSetting();
-        Progress = JsonFile.ReadProgress();
-        // Set UI Value
-        TMP_SubjectIndex.SetText("Subject: "+ (Progress["CurrentSubjectIndex"]+1).ToString());
-        TMP_RoundIndex.SetText("Round: " + (Progress["CurrentRoundIndex"]+1).ToString());
+        Setting = JsonFile.ReadSetting(ExcelFile.ExperimentName);
+        Progress = JsonFile.ReadProgress(ExcelFile.ExperimentName);
+
+        if (Setting["ExperimentType"] == 0)
+        {
+            WithinSubject.SetActive(true);
+            BetweenSubject.SetActive(false);
+            // Set Within Subject Experiment UI Value
+            TMP_SubjectIndex_Within.SetText("Subject: " + (Progress["CurrentSubjectIndex"] + 1).ToString());
+            TMP_RoundIndex.SetText("Round: " + (Progress["CurrentRoundIndex"] + 1).ToString());
+        }
+        else
+        {
+            BetweenSubject.SetActive(true);
+            WithinSubject.SetActive(false);
+            // Set Between Subject Experiment UI Value
+            TMP_SubjectIndex_Bewteen.SetText("Subject: " + (Progress["CurrentSubjectIndex"] + 1).ToString());
+            TMP_GroupIndex.SetText("Group: " + (Progress["CurrentGroupIndex"] + 1).ToString());
+        }
+
+
         // Init Bool
         FinishButtonPressed = false;
     }
@@ -40,51 +57,88 @@ public class ExperimentController : MonoBehaviour
     void Update()
     {
         // For Subject And Round Switch
-        if(Progress["CurrentRoundIndex"] == Setting["RoundsPerSubject"]-1)
+        if((Setting["ExperimentType"] == 0))
         {
-            // In The Last Round Of Each Subject
-            TMP_FinishButton.SetText("Finish");
+            if ((Progress["CurrentRoundIndex"] == Setting["RoundsPerSubject"] - 1))
+            {
+                // In The Last Round Of Each Subject
+                TMP_FinishButton.SetText("Finish");
+            }
         }
+        else
+        {
+            if ((Progress["CurrentSubjectIndex"] == (Setting["SubjectNum"]) - 1))
+            {
+                // In The Last Subject Of Each Group
+                TMP_FinishButton.SetText("Next Group");
+            }
+        }
+        
         if (Script_Fade.CG.alpha > 0.95)
         {
             UpdateProgress();
             if (FinishButtonPressed)
             {
                 FinishButtonPressed = false;
-                if (Progress["CurrentRoundIndex"] == Setting["RoundsPerSubject"])
+                if (Setting["ExperimentType"] == 0)
                 {
-                    // Update Progress of Subject and Reset CurrentRoundIndex
-                    Progress = JsonFile.WriteProgress(Progress["TotalPresentedRounds"], Progress["CurrentSubjectIndex"] + 1, 0);
-                    if (Progress["CurrentSubjectIndex"] == Setting["SubjectNum"])
+                    Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"] + 1, Progress["CurrentSubjectIndex"], Progress["CurrentRoundIndex"] + 1, 0);
+                    if (Progress["CurrentRoundIndex"] == Setting["RoundsPerSubject"])
                     {
-                        // After All Expriments
-                        SceneController.GoToSceneByName("Intro");
+                        // Update Progress of Subject and Reset CurrentRoundIndex
+                        Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"], Progress["CurrentSubjectIndex"] + 1, 0, 0);
+                        if (Progress["CurrentSubjectIndex"] == Setting["SubjectNum"])
+                        {
+                            // After All Expriments
+                            SceneController.GoToSceneByName("Intro");
+                        }
+                        else
+                        {
+                            // After Each Subject
+                            SceneController.GoToSceneByName("Notification");
+                        }
                     }
-                    else 
+                    else
                     {
-                        // After Each Subject
-                        SceneController.GoToSceneByName("Notification");
+                        // Switch Round
+                        SceneController.GoToSceneByName("Experiment");
                     }
                 }
                 else
                 {
-                    // Switch Round
-                    SceneController.GoToSceneByName("Experiment");
+                    Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"] + 1, Progress["CurrentSubjectIndex"]+1, 0, Progress["CurrentGroupIndex"]);
+                    if (Progress["CurrentSubjectIndex"] == (Setting["SubjectNum"]))
+                    {
+                        Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"], Progress["CurrentSubjectIndex"], 0, Progress["CurrentGroupIndex"]+1);
+                        if (Progress["CurrentGroupIndex"] == Setting["GroupNum"])
+                        {
+                            // After All Expriments
+                            SceneController.GoToSceneByName("Intro");
+                        }
+                    }
+                    // After Each Subject
+                    SceneController.GoToSceneByName("Notification");
                 }
             }
         }
-        
     }
     void UpdateProgress()
     {
-        Progress = JsonFile.ReadProgress();
-        S_ProgressBar.value = (float)((float)Progress["CurrentRoundIndex"] / (float)Setting["RoundsPerSubject"]) + 0.1f;
+        Progress = JsonFile.ReadProgress(ExcelFile.ExperimentName);
+        if (Setting["ExperimentType"] == 0)
+        {
+            S_ProgressBar.value = (float)((float)Progress["CurrentRoundIndex"] / (float)Setting["RoundsPerSubject"]) + 0.1f;
+        }
+        else
+        {
+            S_ProgressBar.value = (float)((float)Progress["CurrentSubjectIndex"] / (float)(Setting["SubjectNum"])) + 0.1f;
+        }
     }
     public void FinishButton()
     {
         FinishButtonPressed = true;
         // Update Progress of Round
-        Progress = JsonFile.WriteProgress(Progress["TotalPresentedRounds"] + 1, Progress["CurrentSubjectIndex"], Progress["CurrentRoundIndex"] + 1);
+        
         Script_Fade.CG_Alpha_Target = 1f;
     }
 }
