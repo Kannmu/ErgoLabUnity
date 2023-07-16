@@ -13,7 +13,6 @@ public class SettingController : MonoBehaviour
 {
     // Variables
     private bool PrevButtonPressed,ConfrimButton;
-    private Dictionary<string, int> Setting;
 
     // Components
     public Toggle FullScreen;
@@ -28,9 +27,6 @@ public class SettingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Read Settings
-        Setting = JsonFile.ReadSetting(ExcelFile.ExperimentName);
-
 
         // Active the Fade
         Script_Fade.CG.gameObject.SetActive(true);
@@ -40,15 +36,15 @@ public class SettingController : MonoBehaviour
         ConfrimButton = false;
 
         // Set Setting Scene Param Value
-        TMP_Resolution.value = FindOptionIndex(TMP_Resolution, Setting["ResolutionX"].ToString() + "x" + Setting["ResolutionY"].ToString());
-        TMP_FPS.value = FindOptionIndex(TMP_FPS, Setting["FPS"].ToString());
-        TMP_ExpType.value = Setting["ExperimentType"];
-        TMP_SubjectNum.text = (Setting["SubjectNum"].ToString());
-        TMP_RoundsPerSubject.text = (Setting["RoundsPerSubject"].ToString());
-        TMP_IndependentVarNum.text = (Setting["IndependentVarNum"].ToString());
-        TMP_DependentVarNum.text = (Setting["DependentVarNum"].ToString());
-        TMP_GroupNum.text = (Setting["GroupNum"].ToString());
-        FullScreen.isOn = (Setting["IsFullScreen"] == 1);
+        TMP_Resolution.value = FindOptionIndex(TMP_Resolution, JsonFile.Setting["ResolutionX"].ToString() + "x" + JsonFile.Setting["ResolutionY"].ToString());
+        TMP_FPS.value = FindOptionIndex(TMP_FPS, JsonFile.Setting["FPS"].ToString());
+        TMP_ExpType.value = JsonFile.Setting["ExperimentType"];
+        TMP_SubjectNum.text = (JsonFile.Setting["SubjectNum"].ToString());
+        TMP_RoundsPerSubject.text = (JsonFile.Setting["RoundsPerSubject"].ToString());
+        TMP_IndependentVarNum.text = (JsonFile.Setting["IndependentVarNum"].ToString());
+        TMP_DependentVarNum.text = (JsonFile.Setting["DependentVarNum"].ToString());
+        TMP_GroupNum.text = (JsonFile.Setting["GroupNum"].ToString());
+        FullScreen.isOn = (JsonFile.Setting["IsFullScreen"] == 1);
         SwitchExperimentType();
     }
 
@@ -111,7 +107,7 @@ public class SettingController : MonoBehaviour
             try
             {
                 // Write New Setting Param
-                JsonFile.Setting ST = new()
+                JsonFile.Setting_Class ST = new()
                 {
                     ResolutionX = Int32.Parse(TMP_Resolution.options[TMP_Resolution.value].text[..4]),
                     ResolutionY = Int32.Parse(TMP_Resolution.options[TMP_Resolution.value].text[5..]),

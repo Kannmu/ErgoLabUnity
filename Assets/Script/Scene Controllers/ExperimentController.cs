@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class ExperimentController : MonoBehaviour
 {
     // Variables
-    private Dictionary<string, int> Setting, Progress;
     private bool FinishButtonPressed;
 
     // Components
@@ -28,24 +27,24 @@ public class ExperimentController : MonoBehaviour
         Script_Fade.CG.gameObject.SetActive(true);
 
         // Read Setting and Progress
-        Setting = JsonFile.ReadSetting(ExcelFile.ExperimentName);
-        Progress = JsonFile.ReadProgress(ExcelFile.ExperimentName);
+        //Setting = JsonFile.ReadSetting(ExcelFile.ExperimentName);
+        //Progress = JsonFile.ReadProgress(ExcelFile.ExperimentName);
 
-        if (Setting["ExperimentType"] == 0)
+        if (JsonFile.Setting["ExperimentType"] == 0)
         {
             WithinSubject.SetActive(true);
             BetweenSubject.SetActive(false);
             // Set Within Subject Experiment UI Value
-            TMP_SubjectIndex_Within.SetText("Subject: " + (Progress["CurrentSubjectIndex"] + 1).ToString());
-            TMP_RoundIndex.SetText("Round: " + (Progress["CurrentRoundIndex"] + 1).ToString());
+            TMP_SubjectIndex_Within.SetText("Subject: " + (JsonFile.Progress["CurrentSubjectIndex"] + 1).ToString());
+            TMP_RoundIndex.SetText("Round: " + (JsonFile.Progress["CurrentRoundIndex"] + 1).ToString());
         }
         else
         {
             BetweenSubject.SetActive(true);
             WithinSubject.SetActive(false);
             // Set Between Subject Experiment UI Value
-            TMP_SubjectIndex_Bewteen.SetText("Subject: " + (Progress["CurrentSubjectIndex"] + 1).ToString());
-            TMP_GroupIndex.SetText("Group: " + (Progress["CurrentGroupIndex"] + 1).ToString());
+            TMP_SubjectIndex_Bewteen.SetText("Subject: " + (JsonFile.Progress["CurrentSubjectIndex"] + 1).ToString());
+            TMP_GroupIndex.SetText("Group: " + (JsonFile.Progress["CurrentGroupIndex"] + 1).ToString());
         }
 
 
@@ -57,9 +56,9 @@ public class ExperimentController : MonoBehaviour
     void Update()
     {
         // For Subject And Round Switch
-        if((Setting["ExperimentType"] == 0))
+        if((JsonFile.Setting["ExperimentType"] == 0))
         {
-            if ((Progress["CurrentRoundIndex"] == Setting["RoundsPerSubject"] - 1))
+            if ((JsonFile.Progress["CurrentRoundIndex"] == JsonFile.Setting["RoundsPerSubject"] - 1))
             {
                 // In The Last Round Of Each Subject
                 TMP_FinishButton.SetText("Finish");
@@ -67,7 +66,7 @@ public class ExperimentController : MonoBehaviour
         }
         else
         {
-            if ((Progress["CurrentSubjectIndex"] == (Setting["SubjectNum"]) - 1))
+            if ((JsonFile.Progress["CurrentSubjectIndex"] == (JsonFile.Setting["SubjectNum"]) - 1))
             {
                 // In The Last Subject Of Each Group
                 TMP_FinishButton.SetText("Next Group");
@@ -80,14 +79,14 @@ public class ExperimentController : MonoBehaviour
             if (FinishButtonPressed)
             {
                 FinishButtonPressed = false;
-                if (Setting["ExperimentType"] == 0)
+                if (JsonFile.Setting["ExperimentType"] == 0)
                 {
-                    Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"] + 1, Progress["CurrentSubjectIndex"], Progress["CurrentRoundIndex"] + 1, 0);
-                    if (Progress["CurrentRoundIndex"] == Setting["RoundsPerSubject"])
+                    JsonFile.WriteProgress(ExcelFile.ExperimentName, JsonFile.Progress["TotalPresentedRounds"] + 1, JsonFile.Progress["CurrentSubjectIndex"], JsonFile.Progress["CurrentRoundIndex"] + 1, 0);
+                    if (JsonFile.Progress["CurrentRoundIndex"] == JsonFile.Setting["RoundsPerSubject"])
                     {
                         // Update Progress of Subject and Reset CurrentRoundIndex
-                        Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"], Progress["CurrentSubjectIndex"] + 1, 0, 0);
-                        if (Progress["CurrentSubjectIndex"] == Setting["SubjectNum"])
+                         JsonFile.WriteProgress(ExcelFile.ExperimentName, JsonFile.Progress["TotalPresentedRounds"], JsonFile.Progress["CurrentSubjectIndex"] + 1, 0, 0);
+                        if (JsonFile.Progress["CurrentSubjectIndex"] == JsonFile.Setting["SubjectNum"])
                         {
                             // After All Expriments
                             SceneController.GoToSceneByName("Intro");
@@ -106,11 +105,11 @@ public class ExperimentController : MonoBehaviour
                 }
                 else
                 {
-                    Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"] + 1, Progress["CurrentSubjectIndex"]+1, 0, Progress["CurrentGroupIndex"]);
-                    if (Progress["CurrentSubjectIndex"] == (Setting["SubjectNum"]))
+                    JsonFile.WriteProgress(ExcelFile.ExperimentName, JsonFile.Progress["TotalPresentedRounds"] + 1, JsonFile.Progress["CurrentSubjectIndex"] + 1, 0, JsonFile.Progress["CurrentGroupIndex"]);
+                    if (JsonFile.Progress["CurrentSubjectIndex"] == (JsonFile.Setting["SubjectNum"]))
                     {
-                        Progress = JsonFile.WriteProgress(ExcelFile.ExperimentName, Progress["TotalPresentedRounds"], Progress["CurrentSubjectIndex"], 0, Progress["CurrentGroupIndex"]+1);
-                        if (Progress["CurrentGroupIndex"] == Setting["GroupNum"])
+                        JsonFile.WriteProgress(ExcelFile.ExperimentName, JsonFile.Progress["TotalPresentedRounds"], JsonFile.Progress["CurrentSubjectIndex"], 0, JsonFile.Progress["CurrentGroupIndex"] + 1);
+                        if (JsonFile.Progress["CurrentGroupIndex"] == JsonFile.Setting["GroupNum"])
                         {
                             // After All Expriments
                             SceneController.GoToSceneByName("Intro");
@@ -124,14 +123,13 @@ public class ExperimentController : MonoBehaviour
     }
     void UpdateProgress()
     {
-        Progress = JsonFile.ReadProgress(ExcelFile.ExperimentName);
-        if (Setting["ExperimentType"] == 0)
+        if (JsonFile.Setting["ExperimentType"] == 0)
         {
-            S_ProgressBar.value = (float)((float)Progress["CurrentRoundIndex"] / (float)Setting["RoundsPerSubject"]) + 0.1f;
+            S_ProgressBar.value = (float)((float)JsonFile.Progress["CurrentRoundIndex"] / (float)JsonFile.Setting["RoundsPerSubject"]) + 0.1f;
         }
         else
         {
-            S_ProgressBar.value = (float)((float)Progress["CurrentSubjectIndex"] / (float)(Setting["SubjectNum"])) + 0.1f;
+            S_ProgressBar.value = (float)((float)JsonFile.Progress["CurrentSubjectIndex"] / (float)(JsonFile.Setting["SubjectNum"])) + 0.1f;
         }
     }
     public void FinishButton()

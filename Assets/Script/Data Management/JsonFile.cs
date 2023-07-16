@@ -1,3 +1,6 @@
+// Json File Process
+// Author: Kannmu
+// Date: 2023.7.16
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +12,9 @@ using System.Text;
 
 public static class JsonFile
 {
+    // Directly Access This Two Variables To Get Up-To-Date Data 
+    public static Dictionary<string, int> Setting = ReadSetting(ExcelFile.ExperimentName);
+    public static Dictionary<string, int> Progress = ReadProgress(ExcelFile.ExperimentName);
     public static string ReadJsonStrData(string FilePath)
     {
         //string 
@@ -38,6 +44,7 @@ public static class JsonFile
     }
     public static Dictionary<string, int> ReadAndConvertJsonToStr(string filepath)
     {
+        // Read Json File And Convert Into String:Int Type Dict
         try
         {
             string JsonStr = ReadJsonStrData(filepath);
@@ -59,7 +66,7 @@ public static class JsonFile
     {
         return ReadAndConvertJsonToStr("/Data/Experiments Data/" + ExperimentName + "/" + "Progress.json");
     }
-    public static void WriteSetting(string ExperimentName,Setting ST)
+    public static void WriteSetting(string ExperimentName, Setting_Class ST)
     {
         // Debug Test Use
         //Setting PS = new()
@@ -72,21 +79,36 @@ public static class JsonFile
         //    SubjectNum = 20,
         //    RoundsPerSubject = 3
         //};
-        string JsonStr = JsonConvert.SerializeObject(ST, Newtonsoft.Json.Formatting.Indented);
-        WriteJsonStrDate("/Data/Experiments Data/" + ExperimentName + "/" + "Setting.json", JsonStr);
-     
+        if(ExperimentName != "Default")
+        {
+            string JsonStr = JsonConvert.SerializeObject(ST, Newtonsoft.Json.Formatting.Indented);
+            WriteJsonStrDate("/Data/Experiments Data/" + ExperimentName + "/" + "Setting.json", JsonStr);
+            Setting = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonStr); ;
+        }
+        else
+        {
+            Debug.LogWarning("Warning: The Default file is read-only state, write data is forbidden.");
+        }
+
     }
-    public static Dictionary<string, int> WriteProgress(string ExperimentName,int TotalPresentedRounds, int SubjectIndex, int RoundIndex, int GroupIndex)
+    public static void WriteProgress(string ExperimentName,int TotalPresentedRounds, int SubjectIndex, int RoundIndex, int GroupIndex)
     {
-        Progress PG = new();
-        PG.TotalPresentedRounds = TotalPresentedRounds;
-        PG.CurrentSubjectIndex = SubjectIndex;
-        PG.CurrentRoundIndex = RoundIndex;
-        PG.CurrentGroupIndex = GroupIndex;
-        string JsonStr = JsonConvert.SerializeObject(PG, Newtonsoft.Json.Formatting.Indented);
-        WriteJsonStrDate("/Data/Experiments Data/" + ExperimentName + "/" + "Progress.json", JsonStr);
-        Dictionary<string, int> Dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonStr);
-        return Dict;
+
+        if (ExperimentName != "Default")
+        {
+            Progress_Class PG = new();
+            PG.TotalPresentedRounds = TotalPresentedRounds;
+            PG.CurrentSubjectIndex = SubjectIndex;
+            PG.CurrentRoundIndex = RoundIndex;
+            PG.CurrentGroupIndex = GroupIndex;
+            string JsonStr = JsonConvert.SerializeObject(PG, Newtonsoft.Json.Formatting.Indented);
+            WriteJsonStrDate("/Data/Experiments Data/" + ExperimentName + "/" + "Progress.json", JsonStr);
+            Progress = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonStr);
+        }
+        else
+        {
+            Debug.LogWarning("Warning: The Default file is read-only state, write data is forbidden.");
+        }
     }
     
     //public static void SetDefaultSetting(string ExperimentName)
@@ -109,9 +131,9 @@ public static class JsonFile
 
     public static void SetDefaultProgress(string ExperimentName)
     {
-        _ = WriteProgress(ExperimentName,0, 0, 0, 0);
+        WriteProgress(ExperimentName,0, 0, 0, 0);
     }
-    public class Setting
+    public class Setting_Class
     {
         // Define Setting Param Here, Int Type Only
         public int ResolutionX;
@@ -125,7 +147,7 @@ public static class JsonFile
         public int DependentVarNum;
         public int GroupNum;
     }
-    public class Progress
+    public class Progress_Class
     {
         // Define Progress Param Here, Int Type Only
         public int TotalPresentedRounds;

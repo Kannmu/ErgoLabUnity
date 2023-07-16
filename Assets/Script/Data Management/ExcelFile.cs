@@ -24,14 +24,9 @@ public static class ExcelFile
             // Create Target Package
             ExcelPackage package = new(fileInfo);
 
-            // Read Setting Data
-            Dictionary<string, int> Settintg = JsonFile.ReadSetting(ExpName);
-
             // Add a Main Data Sheet
             ExcelWorksheet WS_MainData = package.Workbook.Worksheets.Add("Main Data");
             ExcelWorksheet WS_Info = package.Workbook.Worksheets.Add("Information");
-
-            
 
             // Get Current Date And Time
             DateTime CurrentTime = DateTime.Now;
@@ -48,23 +43,23 @@ public static class ExcelFile
             WS_MainData.Cells[1,1].Value = "Index";
             WS_MainData.Cells[1,2].Value = "Subject";
             WS_MainData.Cells[1,3].Value = "Round";
-            WS_MainData.Cells[1, 4 + Settintg["IndependentVarNum"]].Value = "X";
-            WS_MainData.Cells[1, 4 + Settintg["IndependentVarNum"]].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            WS_MainData.Cells[1, 4 + Settintg["IndependentVarNum"]].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightYellow);
+            WS_MainData.Cells[1, 4 + JsonFile.Setting["IndependentVarNum"]].Value = "X";
+            WS_MainData.Cells[1, 4 + JsonFile.Setting["IndependentVarNum"]].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            WS_MainData.Cells[1, 4 + JsonFile.Setting["IndependentVarNum"]].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightYellow);
 
             // Fill Indexes
-            for (int i = 0; i < Settintg["SubjectNum"]* Settintg["RoundsPerSubject"]; i++)
+            for (int i = 0; i < JsonFile.Setting["SubjectNum"]* JsonFile.Setting["RoundsPerSubject"]; i++)
             {
                 // Set Index
                 WS_MainData.Cells[i + 2, 1].Value = i;
                 // Set Subject Index
-                WS_MainData.Cells[i + 2, 2].Value = i % Settintg["SubjectNum"];
+                WS_MainData.Cells[i + 2, 2].Value = i % JsonFile.Setting["SubjectNum"];
                 // Set Rounds Index
-                WS_MainData.Cells[i + 2, 3].Value = i % Settintg["RoundsPerSubject"];
+                WS_MainData.Cells[i + 2, 3].Value = i % JsonFile.Setting["RoundsPerSubject"];
                 // Set Depart Line Between Independent and Dependent Variables
-                WS_MainData.Cells[i + 2, 4 + Settintg["IndependentVarNum"]].Value = "X";
-                WS_MainData.Cells[i + 2, 4+ Settintg["IndependentVarNum"]].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                WS_MainData.Cells[i + 2, 4 + Settintg["IndependentVarNum"]].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightYellow);
+                WS_MainData.Cells[i + 2, 4 + JsonFile.Setting["IndependentVarNum"]].Value = "X";
+                WS_MainData.Cells[i + 2, 4+ JsonFile.Setting["IndependentVarNum"]].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                WS_MainData.Cells[i + 2, 4 + JsonFile.Setting["IndependentVarNum"]].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightYellow);
             }
 
             // Save Excel File
@@ -92,14 +87,11 @@ public static class ExcelFile
             // Create Target Package
             ExcelPackage package = new(fileInfo);
 
-            // Read Setting Data
-            Dictionary<string, int> Settintg = JsonFile.ReadSetting(ExpName);
-
             // Create Worksheets Array Of Group Data
-            ExcelWorksheet[] WS_GroupData = new ExcelWorksheet[Settintg["GroupNum"]];
+            ExcelWorksheet[] WS_GroupData = new ExcelWorksheet[JsonFile.Setting["GroupNum"]];
 
             // Add a Main Data Sheet
-            for (int i = 0; i < Settintg["GroupNum"]; i++)
+            for (int i = 0; i < JsonFile.Setting["GroupNum"]; i++)
             {
                 ExcelWorksheet WS_MainData = package.Workbook.Worksheets.Add("Group "+i.ToString()+" Data");
                 
@@ -109,12 +101,12 @@ public static class ExcelFile
 
                 // Fill Indexes
                 
-                for (int j = 0; j < (int)(Settintg["SubjectNum"]); j++)
+                for (int j = 0; j < (int)(JsonFile.Setting["SubjectNum"]); j++)
                 {
                     // Set Index
                     WS_MainData.Cells[j + 2, 1].Value = j;
                     // Set Subject Index
-                    WS_MainData.Cells[j + 2, 2].Value = j % Settintg["SubjectNum"];
+                    WS_MainData.Cells[j + 2, 2].Value = j % JsonFile.Setting["SubjectNum"];
                 }
                 WS_GroupData[i] = WS_MainData;
             }
@@ -139,6 +131,11 @@ public static class ExcelFile
             Debug.LogError(ex.Message);
             FlowControl.Exit();
         }
+    }
+
+    public static void WriteRoundData(int SubjectInex, int RoundIndex)
+    {
+
     }
 
 

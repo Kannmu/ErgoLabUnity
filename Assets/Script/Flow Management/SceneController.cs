@@ -13,7 +13,8 @@ public static class SceneController
         "Intro",
         "Setting",
         "Experiment",
-        "Notification"
+        "Notification",
+        "Playground"
     };
 
     // Set Loading Scene Name

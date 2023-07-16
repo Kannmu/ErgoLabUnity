@@ -6,17 +6,16 @@ public static class ApplySetting
 {
     public static void RefreshDisplaySetting()
     {
-        Dictionary<string, int> Setting = JsonFile.ReadSetting(ExcelFile.ExperimentName);
-        Application.targetFrameRate = Setting["FPS"];
-        if (Setting["IsFullScreen"] == 1)
+        Application.targetFrameRate = JsonFile.Setting["FPS"];
+        if (JsonFile.Setting["IsFullScreen"] == 1)
         {
             Screen.fullScreen = true;
-            Screen.SetResolution(Setting["ResolutionX"], Setting["ResolutionY"], true);
+            Screen.SetResolution(JsonFile.Setting["ResolutionX"], JsonFile.Setting["ResolutionY"], true);
         }
         else
         {
             Screen.fullScreen = false;
-            Screen.SetResolution(Setting["ResolutionX"], Setting["ResolutionY"], false);
+            Screen.SetResolution(JsonFile.Setting["ResolutionX"], JsonFile.Setting["ResolutionY"], false);
         }
     }
 }

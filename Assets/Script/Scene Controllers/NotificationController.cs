@@ -1,4 +1,5 @@
 // Notification Textbook Script for Unity Experiment Template
+// Show Experiment Notification and Procedure in this Scene
 // Author: Kannmu
 // Date: 2023.7.1
 using System.Linq;
@@ -16,7 +17,7 @@ public class NotificationController : MonoBehaviour
     // Components
     public TextMeshProUGUI Content;
     public TextMeshProUGUI Footnote;
-    public Button NextButtonComponent, BackButtonComponent,StartButtonComponent, PrevButtonComponent;
+    public Button NextButtonComponent, BackButtonComponent,StartButtonComponent;
 
     // Scripts
     public Fade Script_Fade;
@@ -60,23 +61,21 @@ public class NotificationController : MonoBehaviour
         // Refresh the content and footnote
         Content.SetText(TextInLine[Page_Index]);
         Footnote.SetText((Page_Index + 1).ToString());
-        // Switch Scene, Controlled by alpha of the Fade
-        if (StartButtonPressed)
+
+        // Switch Scene, Controlled by alpha of the
+        if ((Script_Fade.CG.alpha > 0.95))
         {
-            if ((Script_Fade.CG.alpha > 0.95)) 
+            if (StartButtonPressed)
             {
                 StartButtonPressed = false;
                 PrevButtonPressed = false;
-                SceneController.GoToSceneByName("ExperimentScene");
+                SceneController.GoToSceneByName("Playground");
             }
-        }
-        if (PrevButtonPressed)
-        {
-            if ((Script_Fade.CG.alpha > 0.95))
+            if (PrevButtonPressed)
             {
                 StartButtonPressed = false;
-                PrevButtonPressed = false; 
-                SceneController.GoToSceneByName("SettingScene");
+                PrevButtonPressed = false;
+                SceneController.GoToSceneByName("Setting");
             }
         }
     }
@@ -118,7 +117,6 @@ public class NotificationController : MonoBehaviour
         if (Page_Index == 0)
         {
             BackButtonComponent.gameObject.SetActive(false);
-            PrevButtonComponent.gameObject.SetActive(true);
         }
         else if (Page_Index == TextInLine.Length - 1)
         {
@@ -130,19 +128,15 @@ public class NotificationController : MonoBehaviour
             NextButtonComponent.gameObject.SetActive(true);
             BackButtonComponent.gameObject.SetActive(true);
             StartButtonComponent.gameObject.SetActive(false);
-            PrevButtonComponent.gameObject.SetActive(false);
         }
 
     }
     // Start Experiment Button
     public void StartButton()
     {
+        // Start Playground
         StartButtonPressed = true;
         Script_Fade.CG_Alpha_Target = 1f;
     }
-    public void MenuButton()
-    {
-        PrevButtonPressed = true;
-        Script_Fade.CG_Alpha_Target = 1f;
-    }
+
 }
