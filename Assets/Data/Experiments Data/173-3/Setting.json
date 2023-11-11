@@ -1,0 +1,12 @@
+{
+  "ResolutionX": 2560,
+  "ResolutionY": 1440,
+  "IsFullScreen": 1,
+  "FPS": 60,
+  "ExperimentType": 0,
+  "SubjectNum": 10,
+  "RoundsPerSubject": 10,
+  "IndependentVarNum": 2,
+  "DependentVarNum": 2,
+  "GroupNum": 3
+}

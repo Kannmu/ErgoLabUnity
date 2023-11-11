@@ -1,6 +1,8 @@
 # ErgoLabUnity - Ergonomics Experiment Framework for Unity
 
-**本项目仍在开发阶段**
+<!-- **本项目仍在开发阶段** -->
+
+**本项目已停止开发，预计进行架构重新设计并开发新版本**
 
 ## 简介 Introduction
 

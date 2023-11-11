@@ -13,10 +13,10 @@ public class ExperimentController : MonoBehaviour
     private bool FinishButtonPressed;
 
     // Components
-    public TextMeshProUGUI TMP_SubjectIndex_Within, TMP_SubjectIndex_Bewteen, TMP_RoundIndex, TMP_FinishButton,TMP_GroupIndex;
+    public TextMeshProUGUI TMP_SubjectIndex_Within, TMP_SubjectIndex_Between, TMP_RoundIndex, TMP_FinishButton,TMP_GroupIndex;
     public Slider S_ProgressBar;
     public GameObject WithinSubject, BetweenSubject;
-
+    
     // Script
     public Fade Script_Fade;
 
@@ -43,7 +43,7 @@ public class ExperimentController : MonoBehaviour
             BetweenSubject.SetActive(true);
             WithinSubject.SetActive(false);
             // Set Between Subject Experiment UI Value
-            TMP_SubjectIndex_Bewteen.SetText("Subject: " + (JsonFile.Progress["CurrentSubjectIndex"] + 1).ToString());
+            TMP_SubjectIndex_Between.SetText("Subject: " + (JsonFile.Progress["CurrentSubjectIndex"] + 1).ToString());
             TMP_GroupIndex.SetText("Group: " + (JsonFile.Progress["CurrentGroupIndex"] + 1).ToString());
         }
 
@@ -85,7 +85,7 @@ public class ExperimentController : MonoBehaviour
                     if (JsonFile.Progress["CurrentRoundIndex"] == JsonFile.Setting["RoundsPerSubject"])
                     {
                         // Update Progress of Subject and Reset CurrentRoundIndex
-                         JsonFile.WriteProgress(ExcelFile.ExperimentName, JsonFile.Progress["TotalPresentedRounds"], JsonFile.Progress["CurrentSubjectIndex"] + 1, 0, 0);
+                        JsonFile.WriteProgress(ExcelFile.ExperimentName, JsonFile.Progress["TotalPresentedRounds"], JsonFile.Progress["CurrentSubjectIndex"] + 1, 0, 0);
                         if (JsonFile.Progress["CurrentSubjectIndex"] == JsonFile.Setting["SubjectNum"])
                         {
                             // After All Expriments
@@ -121,7 +121,7 @@ public class ExperimentController : MonoBehaviour
             }
         }
     }
-    void UpdateProgress()
+    private void UpdateProgress()
     {
         if (JsonFile.Setting["ExperimentType"] == 0)
         {

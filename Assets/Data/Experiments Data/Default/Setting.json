@@ -1,7 +1,7 @@
 {
   "ResolutionX": 1920,
   "ResolutionY": 1080,
-  "IsFullScreen": 0,
+  "IsFullScreen": 1,
   "FPS": 60,
   "ExperimentType": 1,
   "SubjectNum": 5,
